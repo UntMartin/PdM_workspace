@@ -21,6 +21,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 
+
 /** @addtogroup STM32F4xx_HAL_Examples
   * @{
   */
@@ -60,6 +61,7 @@ int main(void)
        - Set NVIC Group Priority to 4
        - Low Level Initialization
      */
+
   HAL_Init();
 
   /* Configure the system clock to 180 MHz */
@@ -72,7 +74,7 @@ int main(void)
   while (1)
   {
 	  BSP_LED_Toggle(LED2);
-	  HAL_Delay(100);
+	  HAL_Delay(200);
   }
 }
 

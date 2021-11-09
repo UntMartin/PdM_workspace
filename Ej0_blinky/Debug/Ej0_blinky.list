@@ -3444,11 +3444,11 @@ int main(void)
 {
  800168c:	b580      	push	{r7, lr}
  800168e:	af00      	add	r7, sp, #0
-         duration should be kept 1ms since PPP_TIMEOUT_VALUEs are defined and 
          handled in milliseconds basis.
        - Set NVIC Group Priority to 4
        - Low Level Initialization
      */
+
   HAL_Init();
  8001690:	f7ff f810 	bl	80006b4 <HAL_Init>
 
@@ -3467,8 +3467,8 @@ int main(void)
 	  BSP_LED_Toggle(LED2);
  800169e:	2001      	movs	r0, #1
  80016a0:	f7fe ff8a 	bl	80005b8 <BSP_LED_Toggle>
-	  HAL_Delay(100);
- 80016a4:	2064      	movs	r0, #100	; 0x64
+	  HAL_Delay(200);
+ 80016a4:	20c8      	movs	r0, #200	; 0xc8
  80016a6:	f7ff f871 	bl	800078c <HAL_Delay>
 	  BSP_LED_Toggle(LED2);
  80016aa:	e7f8      	b.n	800169e <main+0x12>
