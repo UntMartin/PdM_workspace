@@ -72,6 +72,7 @@ int main(void)
   SystemClock_Config();
 
   /* Initialize BSP Led for LED2 and LED3*/
+  BSP_LED_Init(LED1);
   BSP_LED_Init(LED2);
   BSP_LED_Init(LED3);
 
@@ -90,7 +91,7 @@ int main(void)
   UartHandle.Init.BaudRate   = 9600;
   UartHandle.Init.WordLength = UART_WORDLENGTH_8B;
   UartHandle.Init.StopBits   = UART_STOPBITS_1;
-  UartHandle.Init.Parity     = UART_PARITY_ODD;
+  UartHandle.Init.Parity     = UART_PARITY_NONE;
   UartHandle.Init.HwFlowCtl  = UART_HWCONTROL_NONE;
   UartHandle.Init.Mode       = UART_MODE_TX_RX;
   UartHandle.Init.OverSampling = UART_OVERSAMPLING_16;
@@ -100,15 +101,26 @@ int main(void)
     Error_Handler();
   }
 
+  uint8_t miString[] = "Hola mundo";
+
+  uint8_t i=0;
+  HAL_UART_Transmit(&UartHandle, miString, 10, 1000);
+
   /* Output a message on Hyperterminal using printf function */
-  printf("\n\r UART Printf Example: retarget the C library printf function to the UART\n\r");
-  printf("** Test finished successfully. ** \n\r");
+ // printf("\n\r UART Printf Example: retarget the C library printf function to the UART\n\r");
+  //printf("** Test finished successfully. ** \n\r");
 
   /* Infinite loop */
   while (1)
   {
 	  BSP_LED_Toggle(LED3);
 	  HAL_Delay(100);
+	  i++;
+	  if(i == 10){
+		  i=0;
+		  HAL_UART_Transmit(&UartHandle, miString, 11, 1000);
+		  BSP_LED_Toggle(LED1);
+	  }
   }
 }
 

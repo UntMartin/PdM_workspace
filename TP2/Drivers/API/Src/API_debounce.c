@@ -35,7 +35,7 @@ void ActualizarMEF(void)
 		case ESTADO_B_UP:
 			if(BSP_PB_GetState(BUTTON_USER))
 			{
-				delayStart(&tiempo);
+				delayRead(&tiempo);
 				estadoActual = ESTADO_B_FALLING;
 			}
 			break;
@@ -50,7 +50,7 @@ void ActualizarMEF(void)
 		case ESTADO_B_DOWN:
 			if(!BSP_PB_GetState(BUTTON_USER))
 			{
-				delayStart(&tiempo);
+				delayRead(&tiempo);
 				estadoActual = ESTADO_B_RISING;
 			}
 			break;

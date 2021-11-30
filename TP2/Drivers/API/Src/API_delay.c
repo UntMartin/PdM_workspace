@@ -17,11 +17,6 @@ void delayInit( delay_t * delay, tick_t duration )
 	delay->running = 0;
 }
 
-void delayStart( delay_t * delay)
-{
-	delay->running = 1;
-}
-
 
 bool_t delayRead( delay_t * delay )
 {
