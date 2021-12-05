@@ -1,0 +1,15 @@
+/*
+ * API_Teclado.h
+ *
+ *  Created on: 3 dic. 2021
+ *      Author: martin
+ */
+
+#ifndef API_INC_API_TECLADO_H_
+#define API_INC_API_TECLADO_H_
+
+void InicializarTeclado(void); // Inicializa el Teclado, configurando los pines que usa, e inicializando el delay.
+
+
+
+#endif /* API_INC_API_TECLADO_H_ */

@@ -1,0 +1,198 @@
+/*
+ * API_Acceso.c
+ *
+ *  Created on: 4 dic. 2021
+ *      Author: martin
+ */
+
+
+#include "API_delay.h"
+#include "API_Acceso.h"
+#include "API_Teclado.h"
+#include "API_Leds.h"
+#include "stm32f4xx_hal.h"  		/* <- HAL include */
+#include "stm32f4xx_nucleo_144.h" 	/* <- BSP include */
+
+static uint8_t digito1;
+static uint8_t digito2;
+static uint8_t digito3;
+static uint8_t digito4;
+
+static delay_t AccesoDelayActual;
+
+
+
+
+void ActualizarMEF(uint8_t boton)
+{
+	switch (estadoActual)
+	{
+
+	case ESTADO_STAND_BY:
+		if(boton < 100)
+		{
+			estadoActual = ESTADO_ESPERA_2;
+			digito1 = boton;
+			SetearEstadoLed(ESTADO_LED_ESPERA);
+			delayInit(&AccesoDelayActual, TIMEOUT);  // Se acaba de introducir un numero, reinica el tiempo de espera
+		}
+		break;
+
+	case ESTADO_ESPERA_2:
+		if(boton < 100)
+		{
+			estadoActual = ESTADO_ESPERA_3;
+			digito2 = boton;
+			delayInit(&AccesoDelayActual, TIMEOUT);   // Se acaba de introducir un numero, reinica el tiempo de espera
+		}
+		else
+		{
+			if(boton == NADA)
+			{
+				if(delayRead(&AccesoDelayActual))
+				{
+					estadoActual = ESTADO_STAND_BY;
+					SetearEstadoLed(ESTADO_LED_STAND_BY);
+				}
+			}
+
+			if(boton == ESC)
+			{
+				estadoActual = ESTADO_STAND_BY;
+				SetearEstadoLed(ESTADO_LED_STAND_BY);
+			}
+		}
+		break;
+
+
+	case ESTADO_ESPERA_3:
+		if(boton < 100)
+		{
+			estadoActual = ESTADO_ESPERA_4;
+			digito3 = boton;
+			delayInit(&AccesoDelayActual, TIMEOUT);   // Se acaba de introducir un numero, reinica el tiempo de espera
+		}
+		else
+		{
+			if(boton == NADA)
+			{
+				if(delayRead(&AccesoDelayActual))
+				{
+					estadoActual = ESTADO_STAND_BY;
+					SetearEstadoLed(ESTADO_LED_STAND_BY);
+				}
+			}
+
+			if(boton == ESC)
+			{
+				estadoActual = ESTADO_STAND_BY;
+				SetearEstadoLed(ESTADO_LED_STAND_BY);
+			}
+		}
+		break;
+
+	case ESTADO_ESPERA_4:
+		if(boton < 100)
+		{
+			estadoActual = ESTADO_ESPERA_ENT;
+			digito4 = boton;
+			delayInit(&AccesoDelayActual, TIMEOUT);   // Se acaba de introducir un numero, reinica el tiempo de espera
+		}
+		else
+		{
+			if(boton == NADA)
+			{
+				if(delayRead(&AccesoDelayActual))
+				{
+					estadoActual = ESTADO_STAND_BY;
+					SetearEstadoLed(ESTADO_LED_STAND_BY);
+				}
+			}
+
+			if(boton == ESC)
+			{
+				estadoActual = ESTADO_STAND_BY;
+				SetearEstadoLed(ESTADO_LED_STAND_BY);
+			}
+		}
+		break;
+
+
+	case ESTADO_ESPERA_4:
+		if(100 == boton)
+		{
+			delayInit(&AccesoDelayActual, TIMEOUT);   // Se carga el tiempo durante el cual se avisara si el acceso fue concedido o no
+			estadoActual = ESTADO_ACCESO;
+
+			if((DIGITO_1 == digito1)&&(DIGITO_2 == digito2)&&(DIGITO_3 == digito3)&&(DIGITO_4 == digito4))
+			{
+				// Acceso concedido
+				SetearEstadoLed(ESTADO_LED_ACCESO_OK);
+			}
+			else
+			{
+				// Acceso Denegado
+				SetearEstadoLed(ESTADO_LED_ACCESO_DENY);
+			}
+
+
+			digito4 = boton;
+
+		}
+		else
+		{
+			if(boton == NADA)
+			{
+				if(delayRead(&AccesoDelayActual))
+				{
+					estadoActual = ESTADO_STAND_BY;
+					SetearEstadoLed(ESTADO_LED_STAND_BY);
+				}
+			}
+
+			if(boton == ESC)
+			{
+				estadoActual = ESTADO_STAND_BY;
+				SetearEstadoLed(ESTADO_LED_STAND_BY);
+			}
+		}
+		break;
+
+
+
+		case ESTADO_B_UP:
+			if(BSP_PB_GetState(BUTTON_USER))
+			{
+				delayRead(&tiempo);
+				estadoActual = ESTADO_B_FALLING;
+			}
+			break;
+
+		case ESTADO_B_FALLING:
+			if(delayRead(&tiempo))
+			{
+				if(BSP_PB_GetState(BUTTON_USER)) estadoActual = ESTADO_B_DOWN;
+				else estadoActual = ESTADO_B_UP;
+			}
+			break;
+		case ESTADO_B_DOWN:
+			if(!BSP_PB_GetState(BUTTON_USER))
+			{
+				delayRead(&tiempo);
+				estadoActual = ESTADO_B_RISING;
+			}
+			break;
+
+		case ESTADO_B_RISING:
+			if(delayRead(&tiempo))
+			{
+				if(!BSP_PB_GetState(BUTTON_USER)) estadoActual = ESTADO_B_UP;
+				else estadoActual = ESTADO_B_DOWN;
+			}
+			break;
+
+		default:
+			InicializarMEF();
+			break;
+	}
+}

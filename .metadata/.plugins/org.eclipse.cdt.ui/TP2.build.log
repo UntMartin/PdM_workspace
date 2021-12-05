@@ -1,0 +1,22 @@
+19:06:29 **** Incremental Build of configuration Debug for project TP2 ****
+make -j4 all 
+arm-none-eabi-gcc "../Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F429ZITx -DSTM32F4 -DNUCLEO_F429ZI -DUSE_HAL_DRIVER -DSTM32F429xx -c -I../Inc -I"/home/martin/CESE/PdM/TPs/PdM_workspace/TP2/Drivers/STM32F4xx_HAL_Driver/Inc" -I"/home/martin/CESE/PdM/TPs/PdM_workspace/TP2/Drivers/CMSIS/Include" -I"/home/martin/CESE/PdM/TPs/PdM_workspace/TP2/Drivers/CMSIS/Device/ST/STM32F4xx/Include" -I"/home/martin/CESE/PdM/TPs/PdM_workspace/TP2/Drivers/BSP/STM32F4xx_Nucleo_144" -I"/home/martin/CESE/PdM/TPs/PdM_workspace/TP2/Drivers/Core/Inc" -I"/home/martin/CESE/PdM/TPs/PdM_workspace/TP2/Drivers/API/Inc" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Src/main.d" -MT"Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/main.o"
+arm-none-eabi-gcc "../Drivers/API/Src/API_debounce.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F429ZITx -DSTM32F4 -DNUCLEO_F429ZI -DUSE_HAL_DRIVER -DSTM32F429xx -c -I../Inc -I"/home/martin/CESE/PdM/TPs/PdM_workspace/TP2/Drivers/STM32F4xx_HAL_Driver/Inc" -I"/home/martin/CESE/PdM/TPs/PdM_workspace/TP2/Drivers/CMSIS/Include" -I"/home/martin/CESE/PdM/TPs/PdM_workspace/TP2/Drivers/CMSIS/Device/ST/STM32F4xx/Include" -I"/home/martin/CESE/PdM/TPs/PdM_workspace/TP2/Drivers/BSP/STM32F4xx_Nucleo_144" -I"/home/martin/CESE/PdM/TPs/PdM_workspace/TP2/Drivers/Core/Inc" -I"/home/martin/CESE/PdM/TPs/PdM_workspace/TP2/Drivers/API/Inc" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Drivers/API/Src/API_debounce.d" -MT"Drivers/API/Src/API_debounce.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Drivers/API/Src/API_debounce.o"
+arm-none-eabi-gcc "../Drivers/API/Src/API_delay.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F429ZITx -DSTM32F4 -DNUCLEO_F429ZI -DUSE_HAL_DRIVER -DSTM32F429xx -c -I../Inc -I"/home/martin/CESE/PdM/TPs/PdM_workspace/TP2/Drivers/STM32F4xx_HAL_Driver/Inc" -I"/home/martin/CESE/PdM/TPs/PdM_workspace/TP2/Drivers/CMSIS/Include" -I"/home/martin/CESE/PdM/TPs/PdM_workspace/TP2/Drivers/CMSIS/Device/ST/STM32F4xx/Include" -I"/home/martin/CESE/PdM/TPs/PdM_workspace/TP2/Drivers/BSP/STM32F4xx_Nucleo_144" -I"/home/martin/CESE/PdM/TPs/PdM_workspace/TP2/Drivers/Core/Inc" -I"/home/martin/CESE/PdM/TPs/PdM_workspace/TP2/Drivers/API/Inc" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Drivers/API/Src/API_delay.d" -MT"Drivers/API/Src/API_delay.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Drivers/API/Src/API_delay.o"
+arm-none-eabi-gcc -o "TP2.elf" @"objects.list"   -mcpu=cortex-m4 -T"/home/martin/CESE/PdM/TPs/PdM_workspace/TP2/STM32F429ZITX_FLASH.ld" --specs=nosys.specs -Wl,-Map="TP2.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: TP2.elf
+ 
+arm-none-eabi-size   TP2.elf 
+arm-none-eabi-objdump -h -S  TP2.elf  > "TP2.list"
+arm-none-eabi-objcopy  -O binary  TP2.elf  "TP2.bin"
+   text	   data	    bss	    dec	    hex	filename
+   6844	     36	   1588	   8468	   2114	TP2.elf
+Finished building: default.size.stdout
+ 
+Finished building: TP2.bin
+ 
+Finished building: TP2.list
+ 
+
+19:06:30 Build Finished. 0 errors, 0 warnings. (took 940ms)
+

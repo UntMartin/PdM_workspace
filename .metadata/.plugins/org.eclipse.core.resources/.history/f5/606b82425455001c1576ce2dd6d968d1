@@ -1,0 +1,25 @@
+/*
+ * API_Leds.h
+ *
+ *  Created on: 4 dic. 2021
+ *      Author: martin
+ */
+
+#ifndef API_INC_API_LEDS_H_
+#define API_INC_API_LEDS_H_
+
+typedef enum{
+    ESTADO_STAND_BY,
+    ESTADO_ESPERA,
+	ESTADO_ACCESO_OK,
+    ESTADO_ACCESO_DENY
+} estadoLEDs_t;
+
+static delay_t LedDelayActual;
+
+#define DELAY_STAND_BY_ON 100
+#define DELAY_STAND_BY_OFF 900
+#define DELAY_ESPERA 200
+#define DELAY_ACCESO 3000
+
+#endif /* API_INC_API_LEDS_H_ */

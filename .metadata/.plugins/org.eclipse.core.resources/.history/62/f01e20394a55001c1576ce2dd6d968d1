@@ -1,0 +1,29 @@
+/*
+ * API_Acceso.h
+ *
+ *  Created on: 4 dic. 2021
+ *      Author: martin
+ */
+
+#ifndef API_INC_API_ACCESO_H_
+#define API_INC_API_ACCESO_H_
+
+
+
+// Nuevo tipo de datos enumerado llamado estadoMEF_t
+typedef enum{
+    ESTADO_STAND_BY,
+    ESTADO_ESPERA_2,
+    ESTADO_ESPERA_3,
+    ESTADO_ESPERA_4,
+    ESTADO_ESPERA_ENT,
+	ESTADO_ACCESO_OK,
+    ESTADO_ACCESO_DENY
+} estadoMEF_t;
+
+// Variable de estado (global)
+estadoMEF_t estadoActual;
+
+
+
+#endif /* API_INC_API_ACCESO_H_ */

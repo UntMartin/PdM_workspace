@@ -1,0 +1,125 @@
+/*
+ * API_Teclado.c
+ *
+ *  Created on: 3 dic. 2021
+ *      Author: martin
+ */
+
+
+
+#include "API_delay.h"
+#include "stm32f4xx_hal.h"  		/* <- HAL include */
+#include "stm32f4xx_nucleo_144.h" 	/* <- BSP include */
+
+#define DURACION 10
+
+// Variable de estado (global)
+
+
+static delay_t timeToCheck;
+static uint8_t columna;
+
+
+
+void InicializarTeclado(void)
+{
+	columna = 1; // El teclado tiene 4 columnas, comenzamos por la 1ª
+
+	delayInit(&timeToCheck, DURACION); // Iniciamos el timer para ir multiplexando el chequeo
+
+	  GPIO_InitTypeDef GPIO_InitStruct = {0};
+
+	  /* GPIO Ports Clock Enable */
+	  __HAL_RCC_GPIOC_CLK_ENABLE();
+	  __HAL_RCC_GPIOH_CLK_ENABLE();
+	  __HAL_RCC_GPIOA_CLK_ENABLE();
+	  __HAL_RCC_GPIOB_CLK_ENABLE();
+	  __HAL_RCC_GPIOF_CLK_ENABLE();
+	  __HAL_RCC_GPIOE_CLK_ENABLE();
+	  __HAL_RCC_GPIOD_CLK_ENABLE();
+	  __HAL_RCC_GPIOG_CLK_ENABLE();
+
+	  /*Configure GPIO pin Output Level */
+	  HAL_GPIO_WritePin(GPIOF, T_O1_Pin|T_O4_Pin, GPIO_PIN_RESET);
+
+	  /*Configure GPIO pin Output Level */
+	  HAL_GPIO_WritePin(GPIOE, T_O2_Pin|T_O3_Pin, GPIO_PIN_RESET);
+
+
+
+	  /*Configure GPIO pins : T_O1_Pin T_O4_Pin */
+	  GPIO_InitStruct.Pin = T_O1_Pin|T_O4_Pin;
+	  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+	  GPIO_InitStruct.Pull = GPIO_NOPULL;
+	  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+	  HAL_GPIO_Init(GPIOF, &GPIO_InitStruct);
+
+	  /*Configure GPIO pin : T_I2_Pin */
+	  GPIO_InitStruct.Pin = T_I2_Pin;
+	  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+	  GPIO_InitStruct.Pull = GPIO_PULLDOWN;
+	  HAL_GPIO_Init(T_I2_GPIO_Port, &GPIO_InitStruct);
+
+	  /*Configure GPIO pins : T_O2_Pin T_O3_Pin */
+	  GPIO_InitStruct.Pin = T_O2_Pin|T_O3_Pin;
+	  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+	  GPIO_InitStruct.Pull = GPIO_NOPULL;
+	  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+	  HAL_GPIO_Init(GPIOE, &GPIO_InitStruct);
+
+	  /*Configure GPIO pin : T_I1_Pin */
+	  GPIO_InitStruct.Pin = T_I1_Pin;
+	  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+	  GPIO_InitStruct.Pull = GPIO_PULLDOWN;
+	  HAL_GPIO_Init(T_I1_GPIO_Port, &GPIO_InitStruct);
+
+
+	  /*Configure GPIO pins : T_I4_Pin T_I3_Pin */
+	  GPIO_InitStruct.Pin = T_I4_Pin|T_I3_Pin;
+	  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+	  GPIO_InitStruct.Pull = GPIO_PULLDOWN;
+	  HAL_GPIO_Init(GPIOG, &GPIO_InitStruct);
+
+}
+
+// Función Actualizar MEF
+void ActualizarTeclado(void)
+{
+	switch (estadoActual)
+	{
+		case ESTADO_B_UP:
+			if(BSP_PB_GetState(BUTTON_USER))
+			{
+				delayRead(&tiempo);
+				estadoActual = ESTADO_B_FALLING;
+			}
+			break;
+
+		case ESTADO_B_FALLING:
+			if(delayRead(&tiempo))
+			{
+				if(BSP_PB_GetState(BUTTON_USER)) estadoActual = ESTADO_B_DOWN;
+				else estadoActual = ESTADO_B_UP;
+			}
+			break;
+		case ESTADO_B_DOWN:
+			if(!BSP_PB_GetState(BUTTON_USER))
+			{
+				delayRead(&tiempo);
+				estadoActual = ESTADO_B_RISING;
+			}
+			break;
+
+		case ESTADO_B_RISING:
+			if(delayRead(&tiempo))
+			{
+				if(!BSP_PB_GetState(BUTTON_USER)) estadoActual = ESTADO_B_UP;
+				else estadoActual = ESTADO_B_DOWN;
+			}
+			break;
+
+		default:
+			InicializarMEF();
+			break;
+	}
+}

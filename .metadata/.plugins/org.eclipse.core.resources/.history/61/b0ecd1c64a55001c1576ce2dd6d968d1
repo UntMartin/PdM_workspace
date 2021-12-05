@@ -1,0 +1,68 @@
+/*
+ * API_Acceso.c
+ *
+ *  Created on: 4 dic. 2021
+ *      Author: martin
+ */
+
+
+#include "API_delay.h"
+#include "API_Acceso.h"
+#include "stm32f4xx_hal.h"  		/* <- HAL include */
+#include "stm32f4xx_nucleo_144.h" 	/* <- BSP include */
+
+static uint8_t digito1;
+static uint8_t digito2;
+static uint8_t digito3;
+static uint8_t digito4;
+
+
+void ActualizarMEF(uint8_t boton)
+{
+	switch (estadoActual)
+	{
+
+	case ESTADO_STAND_BY:
+		if(boton < 100)
+		{
+			estadoActual = ESTADO_ESPERA_2;
+		}
+		break;
+
+
+		case ESTADO_B_UP:
+			if(BSP_PB_GetState(BUTTON_USER))
+			{
+				delayRead(&tiempo);
+				estadoActual = ESTADO_B_FALLING;
+			}
+			break;
+
+		case ESTADO_B_FALLING:
+			if(delayRead(&tiempo))
+			{
+				if(BSP_PB_GetState(BUTTON_USER)) estadoActual = ESTADO_B_DOWN;
+				else estadoActual = ESTADO_B_UP;
+			}
+			break;
+		case ESTADO_B_DOWN:
+			if(!BSP_PB_GetState(BUTTON_USER))
+			{
+				delayRead(&tiempo);
+				estadoActual = ESTADO_B_RISING;
+			}
+			break;
+
+		case ESTADO_B_RISING:
+			if(delayRead(&tiempo))
+			{
+				if(!BSP_PB_GetState(BUTTON_USER)) estadoActual = ESTADO_B_UP;
+				else estadoActual = ESTADO_B_DOWN;
+			}
+			break;
+
+		default:
+			InicializarMEF();
+			break;
+	}
+}

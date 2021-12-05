@@ -1,0 +1,20 @@
+/*
+ * API_Leds.c
+ *
+ *  Created on: 4 dic. 2021
+ *      Author: martin
+ */
+
+
+
+
+void InicializarLeds()
+{
+
+  BSP_LED_Init(LED1);  // verde
+  BSP_LED_Init(LED2);  // azul
+  BSP_LED_Init(LED3);  // rojo
+
+
+
+}
