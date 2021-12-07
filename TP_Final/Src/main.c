@@ -76,6 +76,7 @@ int main(void)
   HAL_Init();
 
 
+
   /* Configure the system clock to 180 MHz */
   SystemClock_Config();
 
@@ -99,30 +100,28 @@ int main(void)
 
 	valorActual = ChkTeclado();
 
-	if(valorActual != ultimoValor)
+	if(NADA != valorActual)
 	{
-		ultimoValor = valorActual;
-
 		EnviarPorUart(valorActual);
-
 	}
 
 	ActualizarMEF(valorActual);
 
 	ActualizarLeds();
 
-
-/*	HAL_UART_Receive(&UartHandle, &AuxC, 6, 100);
-	if(AuxC[5]==48){
-	AuxC[5]='\n';
-	AuxC[6]='\r';
-	AuxC[7]=0;
-
-	uartSendString(AuxC);*/
-
-
   }
 }
+
+
+/*
+if(valorActual != ultimoValor)
+{
+	ultimoValor = valorActual;
+
+	EnviarPorUart(valorActual);
+}
+*/
+
 
 
 

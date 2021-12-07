@@ -10,6 +10,7 @@
 #include "API_Acceso.h"
 #include "API_Teclado.h"
 #include "API_Leds.h"
+#include "API_uart.h"
 #include "stm32f4xx_hal.h"  		/* <- HAL include */
 #include "stm32f4xx_nucleo_144.h" 	/* <- BSP include */
 

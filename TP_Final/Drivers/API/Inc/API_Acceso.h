@@ -27,10 +27,10 @@ typedef enum{
 
 #define TIMEOUT 3000
 
-#define DIGITO_1 7
-#define DIGITO_2 5
-#define DIGITO_3 3
-#define DIGITO_4 9
+#define DIGITO_1 2
+#define DIGITO_2 3
+#define DIGITO_3 8
+#define DIGITO_4 5
 
 
 void InicializarAcceso(void);
