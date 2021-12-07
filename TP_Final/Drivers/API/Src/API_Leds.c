@@ -40,7 +40,7 @@ void ActualizarLeds()
 		{
 			case ESTADO_LED_STAND_BY:
 
-				if(EstadoStandBy)
+				if(EstadoStandBy)    // Dado que el tiempo de ON es distinto del OFF, no puedo usar la fn toglear, se debe hacer a mano, cargando el tiempo correspondiente
 				{
 					EstadoStandBy = 0;
 					BSP_LED_On(LED2);

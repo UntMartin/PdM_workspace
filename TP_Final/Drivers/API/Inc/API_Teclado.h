@@ -47,9 +47,9 @@ typedef enum{
 	A_RIGHT
 } TeclasNoNum_t;
 
+#define RECHEKEAR 4      // Cantidad de entradas a la rutina de teclado (40ms), a partir del cual se vuelve a chequear la tecla presionada, para evitar el rebote y confirmar el boton presionado
+#define ESPERA_SOLTAR 5  // Cantidad de entradas a la rutina de teclado (50ms), a partir del cual queda a la espera de que se suelte el boton
 
-#define ESPERA_SOLTAR 5
-#define RECHEKEAR 4
 
 void InicializarTeclado(void); // Inicializa el Teclado, configurando los pines que usa, e inicializando el delay.
 

@@ -25,9 +25,9 @@ typedef enum{
 // Variable de estado (global)
 
 
-#define TIMEOUT 3000
+#define TIMEOUT 3000  // Tiempo de espera para volver a StandBy
 
-#define DIGITO_1 2
+#define DIGITO_1 2  // Clave harcodeada
 #define DIGITO_2 3
 #define DIGITO_3 8
 #define DIGITO_4 5

@@ -36,17 +36,17 @@ void ActualizarMEF(uint8_t boton)
 	{
 
 	case ESTADO_STAND_BY:
-		if(NADA > boton)
+		if(NADA > boton)     // si lo ingresado es un digito numerico
 		{
 			estadoActual = ESTADO_ESPERA_2;
-			digito1 = boton;
-			SetearEstadoLed(ESTADO_LED_ESPERA);
-			delayInit(&AccesoDelayActual, TIMEOUT);  // Se acaba de introducir un numero, reinica el tiempo de espera
+			digito1 = boton; // guardo el valor ingresado
+			SetearEstadoLed(ESTADO_LED_ESPERA); // se indica que estamos en modo espera del ingreso del resto de digitos
+			delayInit(&AccesoDelayActual, TIMEOUT);  // Se acaba de introducir un numero, reinica el tiempo de espera para llegar al TImeOut
 		}
 		break;
 
 	case ESTADO_ESPERA_2:
-		if(NADA > boton)
+		if(NADA > boton)  // si lo ingresado es un digito numerico
 		{
 			estadoActual = ESTADO_ESPERA_3;
 			digito2 = boton;
@@ -54,16 +54,16 @@ void ActualizarMEF(uint8_t boton)
 		}
 		else
 		{
-			if(NADA == boton)
+			if(NADA == boton) // si no se presiono ningun boton
 			{
-				if(delayRead(&AccesoDelayActual))
+				if(delayRead(&AccesoDelayActual)) // consultamos si termino el TimeOut para volver al estado de StandBy
 				{
 					estadoActual = ESTADO_STAND_BY;
 					SetearEstadoLed(ESTADO_LED_STAND_BY);
 				}
 			}
 
-			if(ESC == boton)
+			if(ESC == boton) // Si se presiona el boton Escape
 			{
 				estadoActual = ESTADO_STAND_BY;
 				SetearEstadoLed(ESTADO_LED_STAND_BY);
@@ -126,7 +126,7 @@ void ActualizarMEF(uint8_t boton)
 
 
 	case ESTADO_ESPERA_ENT:
-		if(ENT == boton)
+		if(ENT == boton)    // Si se presiona Enter
 		{
 			delayInit(&AccesoDelayActual, TIMEOUT);   // Se carga el tiempo durante el cual se avisara si el acceso fue concedido o no
 			estadoActual = ESTADO_ACCESO;
@@ -165,7 +165,7 @@ void ActualizarMEF(uint8_t boton)
 		break;
 
 	case ESTADO_ACCESO:
-		if(delayRead(&AccesoDelayActual))
+		if(delayRead(&AccesoDelayActual))  // Espera de un tiempo mostrando el acceso concedido o negado
 		{
 			estadoActual = ESTADO_STAND_BY;
 			SetearEstadoLed(ESTADO_LED_STAND_BY);
